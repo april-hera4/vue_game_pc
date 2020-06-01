@@ -135,7 +135,7 @@ import 'swiper/css/swiper.min.css';
           loop:true,
           touchRatio: 0.2,
           freeMode: true,
-          
+          centeredSlides : true,
           navigation: {
             nextEl: '.swiper-button-next',
             prevEl: '.swiper-button-prev'
