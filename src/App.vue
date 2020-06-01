@@ -144,6 +144,9 @@ input:-ms-input-placeholder {
 .toggle_con ul li:hover{
    background: url('assets/img/hover_bg.png') ;
 }
+.toggle_con ul li:first-child{
+   background: url('assets/img/hover_bg.png') ;
+}
 .classred{
   background: url('assets/img/hover_bg.png') ;
 }
