@@ -5,7 +5,8 @@
 </template>
 
 <script>
-import First from '@/components/First'
+
+import First from '@/page/home'
 
 export default {
   name: 'App',
@@ -16,6 +17,8 @@ export default {
 </script>
 
 <style>
+
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -47,18 +50,7 @@ img{
 img:focus{
   border:0;
 }
-input,button{
-    resize: 0;
-    border: none;
-    background: none;
-    outline:none;
-}
-input:focus{
-    resize: 0;
-    border: none;
-    background: none;
-     outline:none;
-}
+
 input::-webkit-input-placeholder {  	
     color: #0B2D46;
     font-size: 14px;
@@ -144,12 +136,12 @@ input:-ms-input-placeholder {
 .toggle_con ul li:hover{
    background: url('assets/img/hover_bg.png') ;
 }
-.toggle_con ul li:first-child{
-   background: url('assets/img/hover_bg.png') ;
+
+.selected {
+ background: url('assets/img/hover_bg.png') ;
+
 }
-.classred{
-  background: url('assets/img/hover_bg.png') ;
-}
+
 
 .toggle_con ul li a {
     font-style: italic;
@@ -184,6 +176,8 @@ input:-ms-input-placeholder {
     padding: 0 8px;
     background-color: #3c576b;
     box-sizing: border-box;
+    color:#fff;
+    border:none;
     
 }
 .login input+input{
@@ -198,6 +192,8 @@ input:-ms-input-placeholder {
     font-size: 14px;
     border-radius: 10px;
     cursor:pointer;
+    border:none;
+
 }
 .login button:active{
   background:000;

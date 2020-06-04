@@ -7,6 +7,9 @@ import App from './App.vue';
 import VueAwesomeSwiper from 'vue-awesome-swiper';
 import 'swiper/css/swiper.css';
 
+import md5 from 'js-md5';
+Vue.prototype.$md5 = md5;
+
 import Api from './api/index.js';// API请求
 Vue.prototype.$api = Api;
 
@@ -179,3 +182,19 @@ new Vue({
   el: '#app',
   render: h => h(App)
 });
+router.beforeEach((to, from, next) => {
+  if (to.meta.title) {
+    document.title = to.meta.title
+  }
+  const type = to.meta.type
+  // 判断该路由是否需要登录权限
+  if (type === 'login') {
+    if (window.localStorage.getItem('login')) {
+      next()
+    } else {
+      next('/login')
+    }
+  } else {
+    next()  // 确保一定要有next()被调用
+  }
+})

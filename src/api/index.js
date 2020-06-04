@@ -1,7 +1,12 @@
 import axios from 'axios'
-
+// 客户端配置
+const protocol = 'http'
+const host = '192.168.2.145'
+const port = '8336'
+const apiKey = 'jvAVZGmM2HxHlKMx'
+const apiSecretKey = 'apiSecretKey'
 let http = axios.create({
-    baseURL: 'https://api.coindesk.com/',//主机地址
+    baseURL: protocol+'://'+host+':'+port,//主机地址
     withCredentials: false,//跨域，暂时不管
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'

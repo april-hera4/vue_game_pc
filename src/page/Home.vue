@@ -8,7 +8,7 @@
         </div>
         <div class="toggle_con">
                 <ul>
-                <li   v-for="(list,i) in lists" >
+                <li v-for="(list, i) in lists" :key="list.id" @click="change(list)" :class='list.id==selected?"selected":""'>
                 <a><span>{{list.title}}</span>
               <i>{{list.en}}</i></a>
               
@@ -32,26 +32,25 @@
     <!-- swiper1 -->
     <div v-swiper:swiperTop="swiperOptionTop" class="gallery-top">
       <div class="swiper-wrapper" style="ovflow:hidden">
-        <div class="swiper-slide" v-for="item in imgTop" :key="item.name">
+        <div class="swiper-slide" v-for="item in imgTop" :key="item.name" >
         <el-link :underline="false"   class="go">玩游戏<img src="@/assets/img/icon_go.png"></el-link>
-            <img :src="item.imgUrl" class="swiper_img"/>
+            <img :src="item.photo" class="swiper_img"/>
             <div class="slide_bg">
-             
               <div class="slide_txt">
               <div class="slide_top">
-                <div class="slide_title"><span>{{item.name}}<em>{{item.enlish}}</em></span><i><em>{{item.des}}</em><em>{{item.desc}}</em></i></div>
+                <div class="slide_title"><span>{{item.name}}<em>{{item.name_en}}</em></span><i><em>{{item.tag}}</em></i></div>
                 <div class="slide_dep" id="slide_dep">
-                  <em>{{item.dev}}</em>
+                  <em>开发者：{{item.developerName}}</em>
                   <span>
-                    <strong> <i><img src="@/assets/img/icon_single.png" /></i><em>单机游戏</em></strong> 
-                    <strong> <i><img src="@/assets/img/icon_volume.png" /></i><em>大小：24M</em></strong>
+                    <strong> <i><img src="@/assets/img/icon_single.png" /></i><em>{{item.type}}</em></strong> 
+                    <strong> <i><img src="@/assets/img/icon_volume.png" /></i><em>大小：{{item.size}}M</em></strong>
                   </span>
                 </div>
                </div>
                <div class="slide_bor"></div>
               <div class="slide_bot">
                 <em>游戏简介：</em>
-                <span>《开心消消乐》是一款乐元素研发的一款三消类休闲游戏。2013年8月，正式在网页版上线，在2014年8月推出了安卓版本和IOS版本。游戏以救村长为目的，玩家开始了一段开心的闯关旅程。在2015年《开心消消乐》荣获玩家最喜爱的移动单机游戏奖</span>
+                <span>{{item.des}}</span>
               </div>
               </div>
               </div>
@@ -64,13 +63,13 @@
     <div class="small_horz" >
     <div v-swiper:swiperThumbs="swiperOptionThumbs" class="gallery-thumbs">
     <div class="swiper-wrapper" >
-        <div class="swiper-slide" v-for="item in imgThumbs" :key="item.name">
-            <img :src="item.imgUrl" class="swiper_image" />
-             <div class="small_type"><span>益智</span><span>小游</span><span>24</span></div>
+        <div class="swiper-slide" v-for="item in imgThumbs" :key="item.id" @click="playerDetail(item.id)">
+            <img :src="item.logo" class="swiper_image" />
+             <div class="small_type"><span>{{item.type}}</span><span>{{item.size}}</span></div>
             <div classs="small_bg" id="small_slide">
              <div class="small_con">
-             <p><i>开心消消乐</i><em>English</em></p>
-             <span>开发者：消消乐</span>
+             <p><i>{{item.name}}</i><em>{{item.name_en}}</em></p>
+             <span>开发者：{{item.developerName}}</span>
              </div>
             </div>
         </div>
@@ -79,60 +78,70 @@
       <div class="swiper-button-prev"><img src="@/assets/img/icon_prev.png" border="none"></div>
     <div class="swiper-button-next"><img src="@/assets/img/icon_next.png"  border="none"></div>
     </div>
-    
-    
   </div>
-</div>
+  
+ 
+
 </template>
 
 
 <script>
 import Swiper from 'swiper';
 import 'swiper/css/swiper.min.css';
+
+
  export default {
     name: 'carrousel',
     data() {
       return {
-       current:1,
+        selected:1,
+        slide_selected:1,
         lists: [
 				{
-         
+          id:1,
 					title: "全部游戏",
-					en: "All Game"
+          en: "All Game",
+          type : 0
 				},
 				{
+          id:2,
 					title: "小游戏",
-					en: "Small Game"
+          en: "Small Game",
+          type : 1
 				},
         {
+          id:3,
 					title: "H5页游",
-					en: "H5 Game"
+          en: "H5 Game",
+          type : 2
 				},
         {
+          id:4,
 					title: "单机APK",
-					en: "console Game"
+          en: "console Game",
+          type : 3
 				},
 			],
         swiperOptionTop: {
           grabCursor: true,
-           slideToClickedSlide: true,
-            autoplay:true,
-            loop:true,
-            clickable :true,
-            effect : 'fade',
+          slideToClickedSlide: true,
+          autoplay:true,
+          loop:true,
+          effect : 'fade',
           pagination: {
                   el: ".swiper-pagination",
                   bulletClass: "swiper-pagination-bullet",
-                  bulletActiveClass: "swiper-pagination-bullet-active"
+                  bulletActiveClass: "swiper-pagination-bullet-active",
+                    paginationClickable: true,
+                 
                 },
-
         },
         swiperOptionThumbs: {
           slidesPerView: 7,
           spaceBetween: 28,
           slideToClickedSlide: true,
           grabCursor: true,
-          loop:true,
+          //loop:true,
           touchRatio: 0.2,
           freeMode: true,
           centeredSlides : true,
@@ -141,63 +150,92 @@ import 'swiper/css/swiper.min.css';
             prevEl: '.swiper-button-prev'
           },
         },
+        smallSwiper:{
+            request:"getGameList",
+            type:0,
+            pageIndex:1,
+            pageSize:7,
+            id:"",
+        },
+        smallSwiperDetail:{
+            request:"getGameInfo",
+            gameId:""
+        },
         imgTop:[
-          {
-            name:"开心消消乐",
-            imgUrl:require("@/assets/img/big_1.jpg"),
-            enlish:"English name",
-            des:"休闲",
-            desc:"益智",
-            dev:"开发者：消消乐"
-          },
-          {
-            name:"阳台2",
-            imgUrl:require("@/assets/img/bg_2.jpg")
-          },
-          {
-            name:"阳台3",
-            imgUrl:require("@/assets/img/bg_3.jpg")
+          { 
+            request:"getGameList",
+            pageIndex:1,
+            pageSize:7,
+            id:"GC_10001",
+            name:"神庙丽影",
+            name_en:"Temple Raider",
+            developerName:"神庙丽影",
+            type:1,
+            logo:require("@/assets/img/big_1.jpg"),
+            size:"34.5",
+            tag:"神庙,古墓丽影,博彩",
+            des:"《神庙丽影》是一款乐元素研发的一款三消类休闲游戏。2013年8月，正家最喜爱的移动单机游戏奖",
+            photo:"http://192.168.2.145:8336/1001/11.jpg,http://192.168.2.145:8336/1001/12.jpg"
+        
           }
+        
         ],
-        imgThumbs:[
-          {
-            name:"阳台4",
-            imgUrl:require("@/assets/img/bg_4.jpg")
-          },
-          {
-            name:"阳台5",
-            imgUrl:require("@/assets/img/bg_5.jpg")
-          },
-          {
-            name:"阳台6",
-            imgUrl:require("@/assets/img/bg_6.jpg")
-          }
-          ,
-          {
-            name:"阳台7",
-            imgUrl:require("@/assets/img/bg_5.jpg")
-          },
-          {
-            name:"阳台8",
-            imgUrl:require("@/assets/img/bg_3.jpg")
-          },
-          {
-            name:"阳台9",
-            imgUrl:require("@/assets/img/bg_2.jpg")
-          },
-          {
-            name:"阳台10",
-            imgUrl:require("@/assets/img/bg_6.jpg")
-          },
-          
-          
-        ]
+        imgThumbs:[]
       } 
     },
-   methods:{			
-	
-		},	   
-	  mounted: function() {}  
+   methods:{		
+      //设置游戏分类li当前选中移除
+      change(list){
+        this.selected=list.id;
+      },
+     get:function(){
+        this.$api.post('/player', this.smallSwiper, response => {
+            if (response.status >= 200 && response.status < 300) {
+                this.imgThumbs = response.data.data.list
+                console.log(response.data.data.list);//请求成功，response为成功信息参数
+            } else {
+                //console.log(response.message);//求失败，response为失败信息
+            }
+        });
+      },
+    //   playerDetail(id) {
+    //   this.$api.post('/player', this.smallSwiper, result => {
+    //     let data = result.data;
+    //     if (data.code == 1) {
+    //       this.smallSwiperDetail = data.data.smallSwiperDetail;
+          
+    //     let params = {
+    //         id: this.smallSwiperDetail.gameId, 
+    //     };
+    //       this.$api.post(api.id, params).then(result => {
+    //         console.log(result.data);
+    //         let data = result.data;
+    //         if (data.code == 0) {
+    //           this.smallSwiperDetail = data.data;
+    //         }
+    //       });
+    //     }
+    //   });
+    // },
+      playerDetail(id){
+        this.$api.post('/player', this.smallSwiperDetail, response => {
+           let data = result.data;
+            if (response.status >= 200 && response.status < 300) {
+                this.imgThumbs = response.data.data.list
+                console.log(response.data.data.list);//请求成功，response为成功信息参数
+            } else {
+                //console.log(response.message);//求失败，response为失败信息
+            }
+        });
+      }
+    },
+
+
+			   
+	  mounted: function() {
+      this.get();
+
+    }  
 
   }
 
@@ -206,10 +244,7 @@ import 'swiper/css/swiper.min.css';
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.selectedColor{
-         color:#4b7dff;
-        background-color: #f6f6f6;
-    }
+
 .slide_bg{
   width: 100%;
  background:rgba(11, 45, 70, 0.7);
@@ -334,10 +369,15 @@ border: 1px solid rgba(255, 255, 255, 0);
   float: right;
 
 }
+.slide_dep  strong{
+  
+   opacity:0.8;
+
+}
 .slide_dep  strong+strong{
   margin-left: 20px;
   display: inline-block;
-   opacity:0.8;
+  
 
 }
 #slide_dep  strong i{
@@ -500,7 +540,7 @@ box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.4);
 }
 .gallery-thumbs img.swiper_image{
   width:100%;
-  height: 160px;
+  height: 90px;
   border-radius: 8px;
 }
 #pag_ida .my-bullet {
@@ -538,14 +578,20 @@ box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.4);
 .swiper-button-next:after, .swiper-container-rtl .swiper-button-prev:after {
      display:none;
 }
+
+
+
+
+</style>
+<style>
 #pag_slide{
-  bottom:5px;
+  bottom:7px;
 }
 #pag_slide span.swiper-pagination-bullet{
-  background:#fff !important;
+  background:#fff ;
 }
 #pag_slide  .swiper-pagination-bullet-active{
-  background:#FF0BA7D4 !important;
+  background:#0B2D46  !important;
 }
 #pag_slide.swiper-pagination-bullet{
   margin:0 10px;
