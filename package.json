@@ -15,7 +15,7 @@
     "css-loader": "^0.28.11",
     "element-ui": "^2.13.2",
     "js-md5": "^0.7.3",
-    "swiper": "^5.4.1",
+    "swiper": "^6.5.1",
     "vue": "^2.5.2",
     "vue-awesome-swiper": "^4.1.1",
     "vue-router": "^3.0.1"
